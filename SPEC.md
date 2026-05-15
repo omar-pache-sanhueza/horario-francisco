@@ -51,6 +51,7 @@ Mapeo actual (`teacherTreatment` en `src/data/schedule.ts`):
 | Catalina Méndez | Miss |
 | Katya Castro | Miss |
 | Álvaro Rodríguez | Mister |
+| Blas Valenzuela | Mister |
 
 Al sumar un profesor nuevo, agregarlo al mapa y asignar el campo `trato` en cada bloque.
 
@@ -67,6 +68,7 @@ Curso: 1° Básico Chicago, Colegio Inglés Mi Mundo. 8 bloques de lunes a jueve
 6. Educación Física y Salud - Katya Castro
 7. Taller de Teatro - Nelda Garcés
 8. Taller de Teatro - Nelda Garcés
+9. Karate - Blas Valenzuela (extracurricular)
 
 ### Martes
 1-2. Lenguaje y Comunicación - Nelda Garcés
@@ -111,8 +113,9 @@ Curso: 1° Básico Chicago, Colegio Inglés Mi Mundo. 8 bloques de lunes a jueve
 | Orientación | `#d946ef` fucsia |
 | Taller de Teatro | `#c026d3` magenta |
 | Taller de Reforzamiento | `#f87171` salmón |
+| Karate | `#1f2937` grafito |
 
-- Emojis por asignatura: Lenguaje 📖, Matemática 🔢, Historia 🌍, Ciencias 🔬, Tecnología 💻, Educación Física ⚽, Inglés 🗣️, Artes 🎨, Música 🎵, Orientación 🧭, Teatro 🎭, Reforzamiento ✨.
+- Emojis por asignatura: Lenguaje 📖, Matemática 🔢, Historia 🌍, Ciencias 🔬, Tecnología 💻, Educación Física ⚽, Inglés 🗣️, Artes 🎨, Música 🎵, Orientación 🧭, Teatro 🎭, Reforzamiento ✨, Karate 🥋.
 - Logo del colegio: discreto en el footer.
 - Jerarquía: día gigante arriba, frase "Mañana te toca:", tarjetas grandes apilables.
 - Sin interacciones: sólo scroll.

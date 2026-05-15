@@ -10,7 +10,8 @@ export type Subject =
   | 'Música'
   | 'Orientación'
   | 'Taller de Teatro'
-  | 'Taller de Reforzamiento';
+  | 'Taller de Reforzamiento'
+  | 'Karate';
 
 export type Weekday = 'lunes' | 'martes' | 'miércoles' | 'jueves' | 'viernes';
 
@@ -28,6 +29,7 @@ export const teacherTreatment: Record<string, Treatment> = {
   'Catalina Méndez': 'Miss',
   'Katya Castro': 'Miss',
   'Álvaro Rodríguez': 'Mister',
+  'Blas Valenzuela': 'Mister',
 };
 
 export const subjectStyle: Record<Subject, { color: string; emoji: string; text: string }> = {
@@ -43,6 +45,7 @@ export const subjectStyle: Record<Subject, { color: string; emoji: string; text:
   'Orientación':                             { color: '#d946ef', emoji: '🧭', text: '#ffffff' },
   'Taller de Teatro':                        { color: '#c026d3', emoji: '🎭', text: '#ffffff' },
   'Taller de Reforzamiento':                 { color: '#f87171', emoji: '✨', text: '#1f2937' },
+  'Karate':                                  { color: '#1f2937', emoji: '🥋', text: '#ffffff' },
 };
 
 const NELDA = 'Nelda Garcés';
@@ -57,6 +60,7 @@ export const schedule: Record<Weekday, Block[]> = {
     { bloque: 6, asignatura: 'Educación Física y Salud', profesor: 'Katya Castro', trato: 'Miss' },
     { bloque: 7, asignatura: 'Taller de Teatro', profesor: NELDA, trato: 'Miss' },
     { bloque: 8, asignatura: 'Taller de Teatro', profesor: NELDA, trato: 'Miss' },
+    { bloque: 9, asignatura: 'Karate', profesor: 'Blas Valenzuela', trato: 'Mister' },
   ],
   martes: [
     { bloque: 1, asignatura: 'Lenguaje y Comunicación', profesor: NELDA, trato: 'Miss' },
