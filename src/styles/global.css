@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/fredoka/index.css';
+
+@theme {
+  --font-sans: 'Fredoka Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --color-paper: #fffaf0;
+}
+
+html, body {
+  background: var(--color-paper);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}

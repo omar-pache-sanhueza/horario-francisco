@@ -1,0 +1,91 @@
+---
+import '../styles/global.css';
+import { schedule } from '../data/schedule';
+import { nextSchoolDay, capitalize } from '../lib/nextSchoolDay';
+import SubjectCard from '../components/SubjectCard.astro';
+
+const initialDay = nextSchoolDay();
+const initialBlocks = schedule[initialDay];
+const scheduleJson = JSON.stringify(schedule);
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <meta name="theme-color" content="#1e3a8a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Horario" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <title>Horario Mañana</title>
+  </head>
+  <body class="min-h-screen px-5 pt-8 pb-12">
+    <main class="max-w-md mx-auto">
+      <p class="text-xl text-slate-600">Mañana te toca:</p>
+      <h1 id="day" class="text-6xl font-bold tracking-tight text-slate-900 mt-1 mb-6">
+        {capitalize(initialDay)}
+      </h1>
+
+      <section id="blocks" class="flex flex-col gap-3">
+        {initialBlocks.map((b) => <SubjectCard block={b} />)}
+      </section>
+
+      <footer class="mt-10 flex flex-col items-center gap-2 opacity-70">
+        <img src="/logo.webp" alt="Colegio Inglés Mi Mundo" width="80" height="80" />
+        <p class="text-xs text-slate-500">1° Básico Chicago - Colegio Inglés Mi Mundo</p>
+      </footer>
+    </main>
+
+    <script is:inline define:vars={{ scheduleJson }}>
+      const schedule = JSON.parse(scheduleJson);
+      const STYLE = {
+        'Lenguaje y Comunicación':                 { color: '#f59e0b', emoji: '📖', text: '#ffffff' },
+        'Matemática':                              { color: '#eab308', emoji: '🔢', text: '#1f2937' },
+        'Historia, Geografía y Ciencias Sociales': { color: '#ca8a04', emoji: '🌍', text: '#ffffff' },
+        'Ciencias Naturales':                      { color: '#ea580c', emoji: '🔬', text: '#ffffff' },
+        'Tecnología':                              { color: '#a16207', emoji: '💻', text: '#ffffff' },
+        'Educación Física y Salud':                { color: '#dc2626', emoji: '⚽', text: '#ffffff' },
+        'Idioma Extranjero (Inglés)':              { color: '#1e3a8a', emoji: '🗣️', text: '#ffffff' },
+        'Artes Visuales':                          { color: '#166534', emoji: '🎨', text: '#ffffff' },
+        'Música':                                  { color: '#65a30d', emoji: '🎵', text: '#ffffff' },
+        'Orientación':                             { color: '#d946ef', emoji: '🧭', text: '#ffffff' },
+        'Taller de Teatro':                        { color: '#c026d3', emoji: '🎭', text: '#ffffff' },
+        'Taller de Reforzamiento':                 { color: '#f87171', emoji: '✨', text: '#1f2937' },
+      };
+
+      function nextDay() {
+        const name = new Intl.DateTimeFormat('es-CL', {
+          weekday: 'long', timeZone: 'America/Santiago',
+        }).format(new Date()).toLowerCase();
+        return ({ lunes: 'martes', martes: 'miércoles', 'miércoles': 'jueves', jueves: 'viernes' })[name] || 'lunes';
+      }
+
+      function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+      function render() {
+        const day = nextDay();
+        document.getElementById('day').textContent = cap(day);
+        const container = document.getElementById('blocks');
+        container.innerHTML = '';
+        for (const b of schedule[day]) {
+          const s = STYLE[b.asignatura];
+          const card = document.createElement('article');
+          card.className = 'rounded-3xl px-5 py-4 shadow-md flex items-center gap-4';
+          card.style.background = s.color;
+          card.style.color = s.text;
+          card.innerHTML =
+            '<span class="text-5xl leading-none shrink-0" aria-hidden="true">' + s.emoji + '</span>' +
+            '<div class="min-w-0">' +
+              '<h2 class="text-2xl font-bold leading-tight break-words">' + b.asignatura + '</h2>' +
+              '<p class="text-base opacity-90 mt-1">Profe ' + b.profesor + '</p>' +
+            '</div>';
+          container.appendChild(card);
+        }
+      }
+
+      render();
+      document.addEventListener('visibilitychange', () => { if (!document.hidden) render(); });
+    </script>
+  </body>
+</html>

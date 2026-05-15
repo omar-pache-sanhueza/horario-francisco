@@ -1,0 +1,22 @@
+---
+import type { Block } from '../data/schedule';
+import { subjectStyle } from '../data/schedule';
+
+interface Props {
+  block: Block;
+}
+
+const { block } = Astro.props;
+const style = subjectStyle[block.asignatura];
+---
+
+<article
+  class="rounded-3xl px-5 py-4 shadow-md flex items-center gap-4"
+  style={`background:${style.color};color:${style.text};`}
+>
+  <span class="text-5xl leading-none shrink-0" aria-hidden="true">{style.emoji}</span>
+  <div class="min-w-0">
+    <h2 class="text-2xl font-bold leading-tight break-words">{block.asignatura}</h2>
+    <p class="text-base opacity-90 mt-1">Profe {block.profesor}</p>
+  </div>
+</article>
