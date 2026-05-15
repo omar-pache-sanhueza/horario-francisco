@@ -16,7 +16,7 @@ async function render(size, name, { maskablePad = false } = {}) {
     const offset = Math.round((size - inner) / 2);
     const art = await sharp(svg).resize(inner, inner).png().toBuffer();
     await sharp({
-      create: { width: size, height: size, channels: 4, background: { r: 30, g: 58, b: 138, alpha: 1 } },
+      create: { width: size, height: size, channels: 4, background: { r: 234, g: 88, b: 12, alpha: 1 } },
     })
       .composite([{ input: art, top: offset, left: offset }])
       .png()
