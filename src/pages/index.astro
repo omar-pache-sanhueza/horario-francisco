@@ -33,23 +33,25 @@ const scheduleJson = JSON.stringify(schedule);
         {initialBlocks.map((b) => <SubjectCard block={b} />)}
       </section>
 
-      <p
-        id="buzo"
-        class="mt-6 text-center text-xl font-bold text-slate-700"
-        style={initialBlocks.some(b => b.asignatura === 'Educación Física y Salud') ? '' : 'display:none'}
-      >
-        Mañana voy con buzo <span aria-hidden="true">👟</span>
-      </p>
+      <section id="avisos" class="mt-8 flex flex-col gap-3">
+        <p
+          id="buzo"
+          class="text-center text-3xl font-bold text-slate-700 leading-tight"
+          style={initialBlocks.some(b => b.asignatura === 'Educación Física y Salud') ? '' : 'display:none'}
+        >
+          Mañana voy con buzo <span aria-hidden="true">👟</span>
+        </p>
 
-      <p
-        id="viernes"
-        class="mt-2 text-center text-xl font-bold text-slate-700"
-        style={initialDay === 'viernes' ? '' : 'display:none'}
-      >
-        Mañana salgo a las 1 <span aria-hidden="true">😄</span>
-      </p>
+        <p
+          id="viernes"
+          class="text-center text-3xl font-bold text-slate-700 leading-tight"
+          style={initialDay === 'viernes' ? '' : 'display:none'}
+        >
+          Mañana salgo a las 1 <span aria-hidden="true">😄</span>
+        </p>
+      </section>
 
-      <footer class="mt-12 flex flex-col items-center gap-4 pt-8 border-t border-slate-200">
+      <footer class="mt-6 flex flex-col items-center gap-4 pt-6 border-t border-slate-200">
         <img src="/logo.png" alt="Colegio Inglés Mi Mundo" width="200" height="112" class="drop-shadow-sm" />
         <div class="text-center">
           <p class="text-xl font-bold text-slate-800">1° Básico Chicago</p>

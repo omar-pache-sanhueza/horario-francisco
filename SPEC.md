@@ -27,13 +27,14 @@ Fuera de alcance: notificaciones, tareas, recordatorios, login, edición desde l
 - Días normales (domingo a jueves): `Mañana me toca`.
 - Viernes y sábado (cuando mañana no hay clases): `Mañana no tengo clases, pero la siguiente es`.
 
-### Aviso de buzo
+### Zona de avisos
 
-Si el horario mostrado contiene `Educación Física y Salud`, debajo de la lista de bloques y antes del footer aparece un aviso rojo con un emoji de zapatilla y el texto `Mañana voy con buzo`. La detección es automática: lee del propio arreglo de bloques en vez de hardcodear lunes/miércoles.
+Entre la lista de bloques y el footer hay una sección `#avisos` con mensajes contextuales en texto grande, bold, centrado, gris oscuro, sin caja. Cada aviso aparece o se oculta según una regla:
 
-### Aviso de salida temprano
+- **Aviso de buzo** (`#buzo`): `Mañana voy con buzo 👟`. Visible si el horario mostrado contiene `Educación Física y Salud`. La detección es automática: lee del propio arreglo de bloques en vez de hardcodear lunes/miércoles.
+- **Aviso de salida temprano** (`#viernes`): `Mañana salgo a las 1 😄`. Visible si el día mostrado es viernes.
 
-Si el día mostrado es viernes, aparece un aviso amarillo con un emoji feliz y el texto `Mañana salgo a las 1`. Va justo debajo del aviso de buzo (si ambos aplican el mismo día) y antes del footer.
+Si ambos aplican el mismo día, se apilan en ese orden con poco espacio entre ellos y poco espacio hasta el footer.
 
 ## Tratamiento de profesores
 
