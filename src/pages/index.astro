@@ -1,11 +1,13 @@
 ---
 import '../styles/global.css';
 import { schedule } from '../data/schedule';
-import { nextSchoolDay, capitalize } from '../lib/nextSchoolDay';
+import { nextSchoolDay, isWeekendGap, capitalize } from '../lib/nextSchoolDay';
 import SubjectCard from '../components/SubjectCard.astro';
 
 const initialDay = nextSchoolDay();
 const initialBlocks = schedule[initialDay];
+const initialGap = isWeekendGap();
+const initialIntro = initialGap ? 'Mañana no tengo clases, pero la siguiente es' : 'Mañana me toca';
 const scheduleJson = JSON.stringify(schedule);
 ---
 
@@ -22,7 +24,7 @@ const scheduleJson = JSON.stringify(schedule);
   </head>
   <body class="min-h-screen px-5 pt-8 pb-12">
     <main class="max-w-md mx-auto">
-      <p class="text-xl text-slate-600">Mañana me toca</p>
+      <p id="intro" class="text-xl text-slate-600">{initialIntro}</p>
       <h1 id="day" class="text-6xl font-bold tracking-tight text-slate-900 mt-1 mb-6">
         {capitalize(initialDay)}
       </h1>
@@ -57,17 +59,29 @@ const scheduleJson = JSON.stringify(schedule);
         'Taller de Reforzamiento':                 { color: '#f87171', emoji: '✨', text: '#1f2937' },
       };
 
-      function nextDay() {
-        const name = new Intl.DateTimeFormat('es-CL', {
+      function todayName() {
+        return new Intl.DateTimeFormat('es-CL', {
           weekday: 'long', timeZone: 'America/Santiago',
         }).format(new Date()).toLowerCase();
-        return ({ lunes: 'martes', martes: 'miércoles', 'miércoles': 'jueves', jueves: 'viernes' })[name] || 'lunes';
+      }
+
+      function nextDay() {
+        const map = { lunes: 'martes', martes: 'miércoles', 'miércoles': 'jueves', jueves: 'viernes' };
+        return map[todayName()] || 'lunes';
+      }
+
+      function isWeekendGap() {
+        const t = todayName();
+        return t === 'viernes' || t === 'sábado';
       }
 
       function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
       function render() {
         const day = nextDay();
+        document.getElementById('intro').textContent = isWeekendGap()
+          ? 'Mañana no tengo clases, pero la siguiente es'
+          : 'Mañana me toca';
         document.getElementById('day').textContent = cap(day);
         const container = document.getElementById('blocks');
         container.innerHTML = '';

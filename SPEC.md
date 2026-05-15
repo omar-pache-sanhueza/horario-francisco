@@ -22,6 +22,11 @@ Fuera de alcance: notificaciones, tareas, recordatorios, login, edición desde l
 - Zona horaria fija: `America/Santiago`.
 - El cálculo se hace en el cliente con `Intl.DateTimeFormat`.
 
+### Texto introductorio
+
+- Días normales (domingo a jueves): `Mañana me toca`.
+- Viernes y sábado (cuando mañana no hay clases): `Mañana no tengo clases, pero la siguiente es`.
+
 ## Tratamiento de profesores
 
 Cada profesor lleva un tratamiento (`trato`) que se muestra antes del nombre en la tarjeta:
