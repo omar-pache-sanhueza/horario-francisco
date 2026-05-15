@@ -34,6 +34,8 @@ npm run preview    # previsualizar build
 
 Editar `src/data/schedule.ts`. Los bloques vacíos simplemente se omiten del arreglo. Los colores y emojis viven en el mismo archivo, asociados al nombre canónico de la asignatura.
 
+Cada bloque incluye un campo `trato` con valor `Miss` (mujer) o `Mister` (hombre). Es lo que se muestra antes del nombre del profesor en la UI (ej. "Miss Nelda Garcés", "Mister Álvaro Rodríguez"). Al agregar un profesor nuevo, sumar también su entrada al mapa `teacherTreatment`.
+
 ## Cómo cambiar el logo o íconos
 
 Reemplazar `public/logo.webp` y correr `npm run icons`.

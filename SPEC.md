@@ -22,6 +22,24 @@ Fuera de alcance: notificaciones, tareas, recordatorios, login, edición desde l
 - Zona horaria fija: `America/Santiago`.
 - El cálculo se hace en el cliente con `Intl.DateTimeFormat`.
 
+## Tratamiento de profesores
+
+Cada profesor lleva un tratamiento (`trato`) que se muestra antes del nombre en la tarjeta:
+
+- `Miss` para profesoras mujeres.
+- `Mister` para profesores hombres.
+
+Mapeo actual (`teacherTreatment` en `src/data/schedule.ts`):
+
+| Profesor | Trato |
+|---|---|
+| Nelda Garcés | Miss |
+| Catalina Méndez | Miss |
+| Katya Castro | Miss |
+| Álvaro Rodríguez | Mister |
+
+Al sumar un profesor nuevo, agregarlo al mapa y asignar el campo `trato` en cada bloque.
+
 ## Datos del horario
 
 Curso: 1° Básico Chicago, Colegio Inglés Mi Mundo. 8 bloques de lunes a jueves, 6 bloques el viernes (los bloques vacíos no se muestran).
