@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "logo": "node scripts/transparentize-logo.mjs",
     "icons": "node scripts/generate-icons.mjs",
     "dev": "astro dev",
     "build": "npm run icons && astro build",

@@ -11,8 +11,8 @@ export default defineConfig({
     AstroPWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Horario Mañana',
-        short_name: 'Horario',
+        name: 'Mi Horario',
+        short_name: 'Mi Horario',
         description: 'Horario escolar del día siguiente para Francisco',
         lang: 'es-CL',
         dir: 'ltr',
