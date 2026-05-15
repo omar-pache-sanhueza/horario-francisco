@@ -7,8 +7,8 @@ import SubjectCard from '../components/SubjectCard.astro';
 const initialDay = nextSchoolDay();
 const initialBlocks = schedule[initialDay];
 const initialGap = isWeekendGap();
-const initialPrefix = initialGap ? 'Mañana no tengo clases, la siguiente es' : 'Mañana es';
-const initialSuffix = initialGap ? 'y me tocará:' : 'y me toca:';
+const initialPrefix = initialGap ? 'Mañana no hay clases, pero el' : 'Mañana es';
+const initialSuffix = initialGap ? 'me toca:' : 'y me toca:';
 const scheduleJson = JSON.stringify(schedule);
 ---
 
@@ -103,8 +103,8 @@ const scheduleJson = JSON.stringify(schedule);
       function render() {
         const day = nextDay();
         const gap = isWeekendGap();
-        document.getElementById('prefix').textContent = gap ? 'Mañana no tengo clases, la siguiente es' : 'Mañana es';
-        document.getElementById('suffix').textContent = gap ? 'y me tocará:' : 'y me toca:';
+        document.getElementById('prefix').textContent = gap ? 'Mañana no hay clases, pero el' : 'Mañana es';
+        document.getElementById('suffix').textContent = gap ? 'me toca:' : 'y me toca:';
         document.getElementById('day').textContent = cap(day);
         const blocks = schedule[day];
         const tieneEdFisica = blocks.some(b => b.asignatura === 'Educación Física y Salud');
