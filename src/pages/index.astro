@@ -33,18 +33,17 @@ const scheduleJson = JSON.stringify(schedule);
         {initialBlocks.map((b) => <SubjectCard block={b} />)}
       </section>
 
-      <aside
+      <p
         id="buzo"
-        class="mt-6 rounded-3xl px-5 py-4 bg-red-600 text-white shadow-md flex items-center gap-4"
+        class="mt-6 text-center text-xl font-bold text-slate-700"
         style={initialBlocks.some(b => b.asignatura === 'Educación Física y Salud') ? '' : 'display:none'}
       >
-        <span class="text-5xl leading-none shrink-0" aria-hidden="true">👟</span>
-        <p class="text-2xl font-bold leading-tight">Mañana voy con buzo</p>
-      </aside>
+        Mañana voy con buzo <span aria-hidden="true">👟</span>
+      </p>
 
       <p
         id="viernes"
-        class="mt-6 text-center text-xl font-bold text-slate-700"
+        class="mt-2 text-center text-xl font-bold text-slate-700"
         style={initialDay === 'viernes' ? '' : 'display:none'}
       >
         Mañana salgo a las 1 <span aria-hidden="true">😄</span>
