@@ -42,6 +42,15 @@ const scheduleJson = JSON.stringify(schedule);
         <p class="text-2xl font-bold leading-tight">Mañana voy con buzo</p>
       </aside>
 
+      <aside
+        id="viernes"
+        class="mt-3 rounded-3xl px-5 py-4 bg-amber-400 text-slate-900 shadow-md flex items-center gap-4"
+        style={initialDay === 'viernes' ? '' : 'display:none'}
+      >
+        <span class="text-5xl leading-none shrink-0" aria-hidden="true">😄</span>
+        <p class="text-2xl font-bold leading-tight">Mañana salgo a las 1</p>
+      </aside>
+
       <footer class="mt-12 flex flex-col items-center gap-4 pt-8 border-t border-slate-200">
         <img src="/logo.png" alt="Colegio Inglés Mi Mundo" width="200" height="112" class="drop-shadow-sm" />
         <div class="text-center">
@@ -95,6 +104,7 @@ const scheduleJson = JSON.stringify(schedule);
         const blocks = schedule[day];
         const tieneEdFisica = blocks.some(b => b.asignatura === 'Educación Física y Salud');
         document.getElementById('buzo').style.display = tieneEdFisica ? '' : 'none';
+        document.getElementById('viernes').style.display = day === 'viernes' ? '' : 'none';
         const container = document.getElementById('blocks');
         container.innerHTML = '';
         for (const b of blocks) {

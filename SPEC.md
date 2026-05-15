@@ -31,6 +31,10 @@ Fuera de alcance: notificaciones, tareas, recordatorios, login, edición desde l
 
 Si el horario mostrado contiene `Educación Física y Salud`, debajo de la lista de bloques y antes del footer aparece un aviso rojo con un emoji de zapatilla y el texto `Mañana voy con buzo`. La detección es automática: lee del propio arreglo de bloques en vez de hardcodear lunes/miércoles.
 
+### Aviso de salida temprano
+
+Si el día mostrado es viernes, aparece un aviso amarillo con un emoji feliz y el texto `Mañana salgo a las 1`. Va justo debajo del aviso de buzo (si ambos aplican el mismo día) y antes del footer.
+
 ## Tratamiento de profesores
 
 Cada profesor lleva un tratamiento (`trato`) que se muestra antes del nombre en la tarjeta:
