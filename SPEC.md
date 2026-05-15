@@ -22,10 +22,13 @@ Fuera de alcance: notificaciones, tareas, recordatorios, login, edición desde l
 - Zona horaria fija: `America/Santiago`.
 - El cálculo se hace en el cliente con `Intl.DateTimeFormat`.
 
-### Texto introductorio
+### Encabezado
 
-- Días normales (domingo a jueves): `Mañana me toca`.
-- Viernes y sábado (cuando mañana no hay clases): `Mañana no tengo clases, pero la siguiente es`.
+Tres líneas apiladas en el `<h1>`:
+
+- Línea 1 (prefijo, gris): `Mañana es` en días normales; `Mañana no tengo clases, la siguiente es` los viernes y sábados.
+- Línea 2 (día gigante, bold): el nombre del día capitalizado.
+- Línea 3 (sufijo, gris): `y me toca:` en días normales; `y me tocará:` los viernes y sábados.
 
 ### Zona de avisos
 
