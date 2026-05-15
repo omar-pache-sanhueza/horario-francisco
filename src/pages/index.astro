@@ -41,7 +41,8 @@ const scheduleJson = JSON.stringify(schedule);
           class="text-center text-3xl font-bold text-slate-700 leading-tight"
           style={initialBlocks.some(b => b.asignatura === 'Educación Física y Salud') ? '' : 'display:none'}
         >
-          Mañana voy con buzo <span aria-hidden="true">👟</span>
+          <span id="buzo-text">{initialGap ? `El ${capitalize(initialDay)} voy con buzo` : 'Mañana voy con buzo'}</span>
+          <span aria-hidden="true">👟</span>
         </p>
 
         <p
@@ -109,6 +110,7 @@ const scheduleJson = JSON.stringify(schedule);
         const blocks = schedule[day];
         const tieneEdFisica = blocks.some(b => b.asignatura === 'Educación Física y Salud');
         document.getElementById('buzo').style.display = tieneEdFisica ? '' : 'none';
+        document.getElementById('buzo-text').textContent = gap ? `El ${cap(day)} voy con buzo` : 'Mañana voy con buzo';
         document.getElementById('viernes').style.display = day === 'viernes' ? '' : 'none';
         const container = document.getElementById('blocks');
         container.innerHTML = '';

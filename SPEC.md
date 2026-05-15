@@ -34,7 +34,9 @@ Tres líneas apiladas en el `<h1>`:
 
 Entre la lista de bloques y el footer hay una sección `#avisos` con mensajes contextuales en texto grande, bold, centrado, gris oscuro, sin caja. Cada aviso aparece o se oculta según una regla:
 
-- **Aviso de buzo** (`#buzo`): `Mañana voy con buzo 👟`. Visible si el horario mostrado contiene `Educación Física y Salud`. La detección es automática: lee del propio arreglo de bloques en vez de hardcodear lunes/miércoles.
+- **Aviso de buzo** (`#buzo`): Visible si el horario mostrado contiene `Educación Física y Salud`. La detección es automática: lee del propio arreglo de bloques en vez de hardcodear lunes/miércoles. El texto cambia según el contexto:
+  - Días normales: `Mañana voy con buzo 👟`.
+  - Viernes y sábado (cuando el día mostrado es el lunes): `El Lunes voy con buzo 👟`.
 - **Aviso de salida temprano** (`#viernes`): `Mañana salgo a las 1 😄`. Visible si el día mostrado es viernes.
 
 Si ambos aplican el mismo día, se apilan en ese orden con poco espacio entre ellos y poco espacio hasta el footer.
