@@ -22,7 +22,7 @@ const scheduleJson = JSON.stringify(schedule);
   </head>
   <body class="min-h-screen px-5 pt-8 pb-12">
     <main class="max-w-md mx-auto">
-      <p class="text-xl text-slate-600">Mañana te toca:</p>
+      <p class="text-xl text-slate-600">Mañana me toca</p>
       <h1 id="day" class="text-6xl font-bold tracking-tight text-slate-900 mt-1 mb-6">
         {capitalize(initialDay)}
       </h1>
@@ -31,9 +31,12 @@ const scheduleJson = JSON.stringify(schedule);
         {initialBlocks.map((b) => <SubjectCard block={b} />)}
       </section>
 
-      <footer class="mt-10 flex flex-col items-center gap-2 opacity-70">
-        <img src="/logo.webp" alt="Colegio Inglés Mi Mundo" width="80" height="80" />
-        <p class="text-xs text-slate-500">1° Básico Chicago - Colegio Inglés Mi Mundo</p>
+      <footer class="mt-12 flex flex-col items-center gap-4 pt-8 border-t border-slate-200">
+        <img src="/logo.webp" alt="Colegio Inglés Mi Mundo" width="160" height="160" class="drop-shadow-sm" />
+        <div class="text-center">
+          <p class="text-xl font-bold text-slate-800">1° Básico Chicago</p>
+          <p class="text-base text-slate-600 mt-1">Colegio Inglés Mi Mundo</p>
+        </div>
       </footer>
     </main>
 
@@ -78,7 +81,7 @@ const scheduleJson = JSON.stringify(schedule);
             '<span class="text-5xl leading-none shrink-0" aria-hidden="true">' + s.emoji + '</span>' +
             '<div class="min-w-0">' +
               '<h2 class="text-2xl font-bold leading-tight break-words">' + b.asignatura + '</h2>' +
-              '<p class="text-base opacity-90 mt-1">Profe ' + b.profesor + '</p>' +
+              '<p class="text-base opacity-90 mt-1">' + b.trato + ' ' + b.profesor + '</p>' +
             '</div>';
           container.appendChild(card);
         }

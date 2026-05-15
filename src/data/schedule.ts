@@ -14,11 +14,21 @@ export type Subject =
 
 export type Weekday = 'lunes' | 'martes' | 'miércoles' | 'jueves' | 'viernes';
 
+export type Treatment = 'Miss' | 'Mister';
+
 export interface Block {
   bloque: number;
   asignatura: Subject;
   profesor: string;
+  trato: Treatment;
 }
+
+export const teacherTreatment: Record<string, Treatment> = {
+  'Nelda Garcés': 'Miss',
+  'Catalina Méndez': 'Miss',
+  'Katya Castro': 'Miss',
+  'Álvaro Rodríguez': 'Mister',
+};
 
 export const subjectStyle: Record<Subject, { color: string; emoji: string; text: string }> = {
   'Lenguaje y Comunicación':                 { color: '#f59e0b', emoji: '📖', text: '#ffffff' },
@@ -39,51 +49,51 @@ const NELDA = 'Nelda Garcés';
 
 export const schedule: Record<Weekday, Block[]> = {
   lunes: [
-    { bloque: 1, asignatura: 'Lenguaje y Comunicación', profesor: NELDA },
-    { bloque: 2, asignatura: 'Lenguaje y Comunicación', profesor: NELDA },
-    { bloque: 3, asignatura: 'Matemática', profesor: NELDA },
-    { bloque: 4, asignatura: 'Matemática', profesor: NELDA },
-    { bloque: 5, asignatura: 'Tecnología', profesor: 'Catalina Méndez' },
-    { bloque: 6, asignatura: 'Educación Física y Salud', profesor: 'Katya Castro' },
-    { bloque: 7, asignatura: 'Taller de Teatro', profesor: NELDA },
-    { bloque: 8, asignatura: 'Taller de Teatro', profesor: NELDA },
+    { bloque: 1, asignatura: 'Lenguaje y Comunicación', profesor: NELDA, trato: 'Miss' },
+    { bloque: 2, asignatura: 'Lenguaje y Comunicación', profesor: NELDA, trato: 'Miss' },
+    { bloque: 3, asignatura: 'Matemática', profesor: NELDA, trato: 'Miss' },
+    { bloque: 4, asignatura: 'Matemática', profesor: NELDA, trato: 'Miss' },
+    { bloque: 5, asignatura: 'Tecnología', profesor: 'Catalina Méndez', trato: 'Miss' },
+    { bloque: 6, asignatura: 'Educación Física y Salud', profesor: 'Katya Castro', trato: 'Miss' },
+    { bloque: 7, asignatura: 'Taller de Teatro', profesor: NELDA, trato: 'Miss' },
+    { bloque: 8, asignatura: 'Taller de Teatro', profesor: NELDA, trato: 'Miss' },
   ],
   martes: [
-    { bloque: 1, asignatura: 'Lenguaje y Comunicación', profesor: NELDA },
-    { bloque: 2, asignatura: 'Lenguaje y Comunicación', profesor: NELDA },
-    { bloque: 3, asignatura: 'Historia, Geografía y Ciencias Sociales', profesor: NELDA },
-    { bloque: 4, asignatura: 'Historia, Geografía y Ciencias Sociales', profesor: NELDA },
-    { bloque: 5, asignatura: 'Historia, Geografía y Ciencias Sociales', profesor: NELDA },
-    { bloque: 6, asignatura: 'Idioma Extranjero (Inglés)', profesor: 'Álvaro Rodríguez' },
-    { bloque: 7, asignatura: 'Taller de Reforzamiento', profesor: NELDA },
-    { bloque: 8, asignatura: 'Taller de Reforzamiento', profesor: NELDA },
+    { bloque: 1, asignatura: 'Lenguaje y Comunicación', profesor: NELDA, trato: 'Miss' },
+    { bloque: 2, asignatura: 'Lenguaje y Comunicación', profesor: NELDA, trato: 'Miss' },
+    { bloque: 3, asignatura: 'Historia, Geografía y Ciencias Sociales', profesor: NELDA, trato: 'Miss' },
+    { bloque: 4, asignatura: 'Historia, Geografía y Ciencias Sociales', profesor: NELDA, trato: 'Miss' },
+    { bloque: 5, asignatura: 'Historia, Geografía y Ciencias Sociales', profesor: NELDA, trato: 'Miss' },
+    { bloque: 6, asignatura: 'Idioma Extranjero (Inglés)', profesor: 'Álvaro Rodríguez', trato: 'Mister' },
+    { bloque: 7, asignatura: 'Taller de Reforzamiento', profesor: NELDA, trato: 'Miss' },
+    { bloque: 8, asignatura: 'Taller de Reforzamiento', profesor: NELDA, trato: 'Miss' },
   ],
   'miércoles': [
-    { bloque: 1, asignatura: 'Idioma Extranjero (Inglés)', profesor: 'Álvaro Rodríguez' },
-    { bloque: 2, asignatura: 'Idioma Extranjero (Inglés)', profesor: 'Álvaro Rodríguez' },
-    { bloque: 3, asignatura: 'Orientación', profesor: NELDA },
-    { bloque: 4, asignatura: 'Educación Física y Salud', profesor: 'Katya Castro' },
-    { bloque: 5, asignatura: 'Educación Física y Salud', profesor: 'Katya Castro' },
-    { bloque: 6, asignatura: 'Matemática', profesor: NELDA },
-    { bloque: 7, asignatura: 'Matemática', profesor: NELDA },
-    { bloque: 8, asignatura: 'Matemática', profesor: NELDA },
+    { bloque: 1, asignatura: 'Idioma Extranjero (Inglés)', profesor: 'Álvaro Rodríguez', trato: 'Mister' },
+    { bloque: 2, asignatura: 'Idioma Extranjero (Inglés)', profesor: 'Álvaro Rodríguez', trato: 'Mister' },
+    { bloque: 3, asignatura: 'Orientación', profesor: NELDA, trato: 'Miss' },
+    { bloque: 4, asignatura: 'Educación Física y Salud', profesor: 'Katya Castro', trato: 'Miss' },
+    { bloque: 5, asignatura: 'Educación Física y Salud', profesor: 'Katya Castro', trato: 'Miss' },
+    { bloque: 6, asignatura: 'Matemática', profesor: NELDA, trato: 'Miss' },
+    { bloque: 7, asignatura: 'Matemática', profesor: NELDA, trato: 'Miss' },
+    { bloque: 8, asignatura: 'Matemática', profesor: NELDA, trato: 'Miss' },
   ],
   jueves: [
-    { bloque: 1, asignatura: 'Lenguaje y Comunicación', profesor: NELDA },
-    { bloque: 2, asignatura: 'Lenguaje y Comunicación', profesor: NELDA },
-    { bloque: 3, asignatura: 'Idioma Extranjero (Inglés)', profesor: 'Álvaro Rodríguez' },
-    { bloque: 4, asignatura: 'Idioma Extranjero (Inglés)', profesor: 'Álvaro Rodríguez' },
-    { bloque: 5, asignatura: 'Artes Visuales', profesor: NELDA },
-    { bloque: 6, asignatura: 'Artes Visuales', profesor: NELDA },
-    { bloque: 7, asignatura: 'Música', profesor: NELDA },
-    { bloque: 8, asignatura: 'Música', profesor: NELDA },
+    { bloque: 1, asignatura: 'Lenguaje y Comunicación', profesor: NELDA, trato: 'Miss' },
+    { bloque: 2, asignatura: 'Lenguaje y Comunicación', profesor: NELDA, trato: 'Miss' },
+    { bloque: 3, asignatura: 'Idioma Extranjero (Inglés)', profesor: 'Álvaro Rodríguez', trato: 'Mister' },
+    { bloque: 4, asignatura: 'Idioma Extranjero (Inglés)', profesor: 'Álvaro Rodríguez', trato: 'Mister' },
+    { bloque: 5, asignatura: 'Artes Visuales', profesor: NELDA, trato: 'Miss' },
+    { bloque: 6, asignatura: 'Artes Visuales', profesor: NELDA, trato: 'Miss' },
+    { bloque: 7, asignatura: 'Música', profesor: NELDA, trato: 'Miss' },
+    { bloque: 8, asignatura: 'Música', profesor: NELDA, trato: 'Miss' },
   ],
   viernes: [
-    { bloque: 1, asignatura: 'Lenguaje y Comunicación', profesor: NELDA },
-    { bloque: 2, asignatura: 'Lenguaje y Comunicación', profesor: NELDA },
-    { bloque: 3, asignatura: 'Ciencias Naturales', profesor: NELDA },
-    { bloque: 4, asignatura: 'Ciencias Naturales', profesor: NELDA },
-    { bloque: 5, asignatura: 'Ciencias Naturales', profesor: NELDA },
-    { bloque: 6, asignatura: 'Matemática', profesor: NELDA },
+    { bloque: 1, asignatura: 'Lenguaje y Comunicación', profesor: NELDA, trato: 'Miss' },
+    { bloque: 2, asignatura: 'Lenguaje y Comunicación', profesor: NELDA, trato: 'Miss' },
+    { bloque: 3, asignatura: 'Ciencias Naturales', profesor: NELDA, trato: 'Miss' },
+    { bloque: 4, asignatura: 'Ciencias Naturales', profesor: NELDA, trato: 'Miss' },
+    { bloque: 5, asignatura: 'Ciencias Naturales', profesor: NELDA, trato: 'Miss' },
+    { bloque: 6, asignatura: 'Matemática', profesor: NELDA, trato: 'Miss' },
   ],
 };
