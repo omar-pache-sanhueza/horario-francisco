@@ -12,3 +12,15 @@ html, body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
+
+.dia-btn {
+  background: #ffffff;
+  color: #475569;
+  border: 2px solid #e2e8f0;
+}
+
+.dia-btn.activo {
+  background: #ea580c;
+  color: #ffffff;
+  border-color: #ea580c;
+}

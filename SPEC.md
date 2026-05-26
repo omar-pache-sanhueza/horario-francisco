@@ -33,20 +33,27 @@ Fuera de alcance: notificaciones, tareas, recordatorios, login, edición desde l
 
 Tres líneas apiladas en el `<h1>`:
 
-- Línea 1 (prefijo, gris): `Mañana es` cuando el día mostrado es mañana; `Mañana no hay clases, pero el` cuando hay `gap` (finde, feriado o vacaciones).
+Las tres líneas deben leerse de corrido como una sola frase, en todas las combinaciones.
+
+- Línea 1 (prefijo, gris): `Mañana es` cuando el día mostrado es mañana; `Mañana no hay clases, pero el` cuando hay `gap` (finde, feriado o vacaciones); `El` en modo manual.
 - Línea 2 (día gigante, bold): el nombre del día capitalizado.
-- Línea 3 (sufijo, gris): `y me toca:` sin `gap`; `me toca:` con `gap`.
+- Línea 3 (sufijo, gris): encadena los avisos del día y cierra con `me toca:`. Se arma como una lista de "extras" unidos con ` y `, seguida de ` y me toca:`:
+  - Extra buzo (el horario del día contiene `Educación Física y Salud`, detección automática): `voy con buzo 👟`.
+  - Extra salida temprano (el día mostrado es viernes): `salgo a las 1 😄`.
+  - Si no hay extras: `y me toca:` solo en modo auto sin `gap`; `me toca:` en los demás casos (con `gap` o manual).
 
-### Zona de avisos
+Ejemplos de la frase completa: "Mañana es Miércoles voy con buzo 👟 y me toca:", "Mañana no hay clases, pero el Lunes voy con buzo 👟 y me toca:", "El Viernes salgo a las 1 😄 y me toca:", "El Martes me toca:".
 
-Entre la lista de bloques y el footer hay una sección `#avisos` con mensajes contextuales en texto grande, bold, centrado, gris oscuro, sin caja. Cada aviso aparece o se oculta según una regla:
+No hay zona de avisos separada: buzo y salida temprano se leen dentro del encabezado.
 
-- **Aviso de buzo** (`#buzo`): Visible si el horario mostrado contiene `Educación Física y Salud`. La detección es automática: lee del propio arreglo de bloques en vez de hardcodear lunes/miércoles. El texto cambia según el contexto:
-  - Sin `gap`: `Mañana voy con buzo 👟`.
-  - Con `gap` (el día mostrado no es mañana): `El [Día] voy con buzo 👟`.
-- **Aviso de salida temprano** (`#viernes`): `Mañana salgo a las 1 😄`. Visible si el día mostrado es viernes y es mañana (sin `gap`).
+### Selector de día
 
-Si ambos aplican el mismo día, se apilan en ese orden con poco espacio entre ellos y poco espacio hasta el footer.
+Bajo los avisos (antes del footer) hay una fila de 5 botones grandes `Lun · Mar · Mié · Jue · Vie` (`#dias`) para mirar el horario de cualquier día de la semana. El botón del día mostrado queda resaltado (naranjo `#ea580c`, texto blanco; los demás blancos con borde).
+
+- Por defecto la app está en **modo auto**: muestra mañana con el encabezado descrito arriba.
+- Al tocar un día se entra en **modo manual**: encabezado neutral (`El` / `[Día]` / `me toca:`), el aviso de buzo dice `El [Día] voy con buzo` y aparece el botón `Volver a mañana` (`#volver`), que regresa al modo auto.
+- El modo manual es transitorio: cada apertura y cada vez que la app vuelve a primer plano (`visibilitychange`) se reinicia a modo auto, garantizando que el default sea siempre mañana.
+- El parámetro `?day=lunes…viernes` entra directo en modo manual con ese día (útil para pruebas).
 
 ## Tratamiento de profesores
 
@@ -130,7 +137,7 @@ Curso: 1° Básico Chicago, Colegio Inglés Mi Mundo. 8 bloques de lunes a jueve
 - Emojis por asignatura: Lenguaje 📖, Matemática 🔢, Historia 🌍, Ciencias 🔬, Tecnología 💻, Educación Física ⚽, Inglés 🗣️, Artes 🎨, Música 🎵, Orientación 🧭, Teatro 🎭, Reforzamiento ✨, Karate 🥋.
 - Logo del colegio: discreto en el footer.
 - Jerarquía: día gigante arriba, frase "Mañana te toca:", tarjetas grandes apilables.
-- Sin interacciones: sólo scroll.
+- Interacción mínima: scroll y el selector de día (ver arriba).
 
 ## Stack técnico
 

@@ -7,8 +7,13 @@ import SubjectCard from '../components/SubjectCard.astro';
 
 const { day: initialDay, gap: initialGap } = nextSchoolDay();
 const initialBlocks = schedule[initialDay];
+const initialExtras: string[] = [];
+if (initialBlocks.some(b => b.asignatura === 'Educación Física y Salud')) initialExtras.push('voy con buzo 👟');
+if (initialDay === 'viernes') initialExtras.push('salgo a las 1 😄');
 const initialPrefix = initialGap ? 'Mañana no hay clases, pero el' : 'Mañana es';
-const initialSuffix = initialGap ? 'me toca:' : 'y me toca:';
+const initialSuffix = initialExtras.length
+  ? initialExtras.join(' y ') + ' y me toca:'
+  : initialGap ? 'me toca:' : 'y me toca:';
 const scheduleJson = JSON.stringify(schedule);
 const calendarioJson = JSON.stringify({ feriados, vacaciones });
 ---
@@ -36,24 +41,21 @@ const calendarioJson = JSON.stringify({ feriados, vacaciones });
         {initialBlocks.map((b) => <SubjectCard block={b} />)}
       </section>
 
-      <section id="avisos" class="mt-8 flex flex-col gap-3">
-        <p
-          id="buzo"
-          class="text-center text-3xl font-bold text-slate-700 leading-tight"
-          style={initialBlocks.some(b => b.asignatura === 'Educación Física y Salud') ? '' : 'display:none'}
-        >
-          <span id="buzo-text">{initialGap ? `El ${capitalize(initialDay)} voy con buzo` : 'Mañana voy con buzo'}</span>
-          <span aria-hidden="true">👟</span>
-        </p>
+      <nav id="dias" class="mt-8 grid grid-cols-5 gap-2" aria-label="Elegir día">
+        <button data-dia="lunes"     class="dia-btn rounded-2xl py-3 text-lg font-bold">Lun</button>
+        <button data-dia="martes"    class="dia-btn rounded-2xl py-3 text-lg font-bold">Mar</button>
+        <button data-dia="miércoles" class="dia-btn rounded-2xl py-3 text-lg font-bold">Mié</button>
+        <button data-dia="jueves"    class="dia-btn rounded-2xl py-3 text-lg font-bold">Jue</button>
+        <button data-dia="viernes"   class="dia-btn rounded-2xl py-3 text-lg font-bold">Vie</button>
+      </nav>
 
-        <p
-          id="viernes"
-          class="text-center text-3xl font-bold text-slate-700 leading-tight"
-          style={initialDay === 'viernes' && !initialGap ? '' : 'display:none'}
-        >
-          Mañana salgo a las 1 <span aria-hidden="true">😄</span>
-        </p>
-      </section>
+      <button
+        id="volver"
+        class="mt-3 w-full rounded-2xl py-3 text-lg font-bold text-orange-700 bg-orange-100"
+        style="display:none"
+      >
+        Volver a mañana
+      </button>
 
       <footer class="mt-6 flex flex-col items-center gap-4 pt-6 border-t border-slate-200">
         <img src="/logo.png" alt="Colegio Inglés Mi Mundo" width="200" height="112" class="drop-shadow-sm" />
@@ -105,9 +107,9 @@ const calendarioJson = JSON.stringify({ feriados, vacaciones });
         return true;
       }
 
+      const DIAS = ['lunes','martes','miércoles','jueves','viernes'];
+
       function nextDay() {
-        const forced = new URLSearchParams(location.search).get('day');
-        if (forced && ['lunes','martes','miércoles','jueves','viernes'].includes(forced)) return { day: forced, gap: false };
         const [y, m, d] = isoSantiago(new Date()).split('-').map(Number);
         const cur = new Date(Date.UTC(y, m - 1, d));
         let gap = false;
@@ -121,16 +123,37 @@ const calendarioJson = JSON.stringify({ feriados, vacaciones });
 
       function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
+      const forced = new URLSearchParams(location.search).get('day');
+      let modo = DIAS.includes(forced) ? forced : 'auto';
+
       function render() {
-        const { day, gap } = nextDay();
-        document.getElementById('prefix').textContent = gap ? 'Mañana no hay clases, pero el' : 'Mañana es';
-        document.getElementById('suffix').textContent = gap ? 'me toca:' : 'y me toca:';
+        let day, gap, manual;
+        if (modo === 'auto') {
+          ({ day, gap } = nextDay());
+          manual = false;
+        } else {
+          day = modo; gap = false; manual = true;
+        }
+
         document.getElementById('day').textContent = cap(day);
+
         const blocks = schedule[day];
-        const tieneEdFisica = blocks.some(b => b.asignatura === 'Educación Física y Salud');
-        document.getElementById('buzo').style.display = tieneEdFisica ? '' : 'none';
-        document.getElementById('buzo-text').textContent = gap ? `El ${cap(day)} voy con buzo` : 'Mañana voy con buzo';
-        document.getElementById('viernes').style.display = day === 'viernes' && !gap ? '' : 'none';
+        const extras = [];
+        if (blocks.some(b => b.asignatura === 'Educación Física y Salud')) extras.push('voy con buzo 👟');
+        if (day === 'viernes') extras.push('salgo a las 1 😄');
+
+        document.getElementById('prefix').textContent =
+          manual ? 'El' : gap ? 'Mañana no hay clases, pero el' : 'Mañana es';
+        document.getElementById('suffix').textContent =
+          extras.length ? extras.join(' y ') + ' y me toca:' : (!manual && !gap ? 'y me toca:' : 'me toca:');
+
+        document.getElementById('volver').style.display = manual ? '' : 'none';
+        for (const btn of document.querySelectorAll('.dia-btn')) {
+          const activo = btn.dataset.dia === day;
+          btn.classList.toggle('activo', activo);
+          btn.setAttribute('aria-pressed', String(activo));
+        }
+
         const container = document.getElementById('blocks');
         container.innerHTML = '';
         for (const b of blocks) {
@@ -149,8 +172,15 @@ const calendarioJson = JSON.stringify({ feriados, vacaciones });
         }
       }
 
+      for (const btn of document.querySelectorAll('.dia-btn')) {
+        btn.addEventListener('click', () => { modo = btn.dataset.dia; render(); });
+      }
+      document.getElementById('volver').addEventListener('click', () => { modo = 'auto'; render(); });
+
       render();
-      document.addEventListener('visibilitychange', () => { if (!document.hidden) render(); });
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) { modo = 'auto'; render(); }
+      });
     </script>
   </body>
 </html>
