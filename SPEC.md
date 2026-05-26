@@ -46,6 +46,13 @@ Ejemplos de la frase completa: "Mañana es Miércoles voy con buzo 👟 y me toc
 
 No hay zona de avisos separada: buzo y salida temprano se leen dentro del encabezado.
 
+### Modo vacaciones
+
+En modo auto, si hoy cae dentro de un periodo de vacaciones (`src/data/calendario.ts`) y **faltan 4 o más días** para el próximo día de clases, en vez del horario se muestra un mensaje divertido: encabezado `¡Estás de / Vacaciones! / Faltan N días para volver ⛄` y una tarjeta naranja con emojis (`¡A descansar y jugar!`).
+
+- El umbral es 4 días: cuando quedan 3 o menos vuelve el horario normal del próximo día, para que Francisco se prepare.
+- El selector de día sigue disponible: tocar un día muestra ese horario (modo manual) y `Volver a mañana` regresa al mensaje de vacaciones.
+
 ### Selector de día
 
 Bajo los avisos (antes del footer) hay una fila de 5 botones grandes `Lun · Mar · Mié · Jue · Vie` (`#dias`) para mirar el horario de cualquier día de la semana. El botón del día mostrado queda resaltado (naranjo `#ea580c`, texto blanco; los demás blancos con borde).

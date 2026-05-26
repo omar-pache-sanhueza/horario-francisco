@@ -115,10 +115,19 @@ const calendarioJson = JSON.stringify({ feriados, vacaciones });
         let gap = false;
         for (let i = 0; i < 60; i++) {
           cur.setUTCDate(cur.getUTCDate() + 1);
-          if (esDiaDeClases(cur)) return { day: WNAME[cur.getUTCDay()], gap };
+          if (esDiaDeClases(cur)) return { day: WNAME[cur.getUTCDay()], gap, fecha: iso(cur) };
           gap = true;
         }
-        return { day: 'lunes', gap: true };
+        return { day: 'lunes', gap: true, fecha: null };
+      }
+
+      function enVacaciones(s) {
+        return cal.vacaciones.some(v => s >= v.desde && s <= v.hasta);
+      }
+
+      function diffDias(a, b) {
+        const x = a.split('-').map(Number), y = b.split('-').map(Number);
+        return Math.round((Date.UTC(y[0], y[1] - 1, y[2]) - Date.UTC(x[0], x[1] - 1, x[2])) / 86400000);
       }
 
       function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
@@ -127,12 +136,41 @@ const calendarioJson = JSON.stringify({ feriados, vacaciones });
       let modo = DIAS.includes(forced) ? forced : 'auto';
 
       function render() {
-        let day, gap, manual;
+        let day, gap, manual, fecha;
         if (modo === 'auto') {
-          ({ day, gap } = nextDay());
+          ({ day, gap, fecha } = nextDay());
           manual = false;
         } else {
-          day = modo; gap = false; manual = true;
+          day = modo; gap = false; manual = true; fecha = null;
+        }
+
+        const hoy = isoSantiago(new Date());
+        const vacaciones = !manual && fecha && enVacaciones(hoy) && diffDias(hoy, fecha) >= 4;
+
+        document.getElementById('volver').style.display = manual ? '' : 'none';
+        for (const btn of document.querySelectorAll('.dia-btn')) {
+          const activo = !vacaciones && btn.dataset.dia === day;
+          btn.classList.toggle('activo', activo);
+          btn.setAttribute('aria-pressed', String(activo));
+        }
+
+        const container = document.getElementById('blocks');
+        container.innerHTML = '';
+
+        if (vacaciones) {
+          const dias = diffDias(hoy, fecha);
+          document.getElementById('prefix').textContent = '¡Estás de';
+          document.getElementById('day').textContent = 'Vacaciones!';
+          document.getElementById('suffix').textContent = `Faltan ${dias} días para volver ⛄`;
+          const card = document.createElement('article');
+          card.className = 'rounded-3xl px-6 py-8 shadow-md text-center';
+          card.style.background = '#ea580c';
+          card.style.color = '#ffffff';
+          card.innerHTML =
+            '<div class="text-6xl leading-tight" aria-hidden="true">⛄🎮⚽🛌🎉</div>' +
+            '<p class="text-2xl font-bold mt-4">¡A descansar y jugar!</p>';
+          container.appendChild(card);
+          return;
         }
 
         document.getElementById('day').textContent = cap(day);
@@ -147,15 +185,6 @@ const calendarioJson = JSON.stringify({ feriados, vacaciones });
         document.getElementById('suffix').textContent =
           extras.length ? extras.join(' y ') + ' y me toca:' : (!manual && !gap ? 'y me toca:' : 'me toca:');
 
-        document.getElementById('volver').style.display = manual ? '' : 'none';
-        for (const btn of document.querySelectorAll('.dia-btn')) {
-          const activo = btn.dataset.dia === day;
-          btn.classList.toggle('activo', activo);
-          btn.setAttribute('aria-pressed', String(activo));
-        }
-
-        const container = document.getElementById('blocks');
-        container.innerHTML = '';
         for (const b of blocks) {
           const s = STYLE[b.asignatura];
           const card = document.createElement('article');
