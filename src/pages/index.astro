@@ -1,15 +1,16 @@
 ---
 import '../styles/global.css';
 import { schedule } from '../data/schedule';
-import { nextSchoolDay, isWeekendGap, capitalize } from '../lib/nextSchoolDay';
+import { feriados, vacaciones } from '../data/calendario';
+import { nextSchoolDay, capitalize } from '../lib/nextSchoolDay';
 import SubjectCard from '../components/SubjectCard.astro';
 
-const initialDay = nextSchoolDay();
+const { day: initialDay, gap: initialGap } = nextSchoolDay();
 const initialBlocks = schedule[initialDay];
-const initialGap = isWeekendGap();
 const initialPrefix = initialGap ? 'Mañana no hay clases, pero el' : 'Mañana es';
 const initialSuffix = initialGap ? 'me toca:' : 'y me toca:';
 const scheduleJson = JSON.stringify(schedule);
+const calendarioJson = JSON.stringify({ feriados, vacaciones });
 ---
 
 <html lang="es">
@@ -48,7 +49,7 @@ const scheduleJson = JSON.stringify(schedule);
         <p
           id="viernes"
           class="text-center text-3xl font-bold text-slate-700 leading-tight"
-          style={initialDay === 'viernes' ? '' : 'display:none'}
+          style={initialDay === 'viernes' && !initialGap ? '' : 'display:none'}
         >
           Mañana salgo a las 1 <span aria-hidden="true">😄</span>
         </p>
@@ -63,8 +64,11 @@ const scheduleJson = JSON.stringify(schedule);
       </footer>
     </main>
 
-    <script is:inline define:vars={{ scheduleJson }}>
+    <script is:inline define:vars={{ scheduleJson, calendarioJson }}>
       const schedule = JSON.parse(scheduleJson);
+      const cal = JSON.parse(calendarioJson);
+      const feriadosSet = new Set(cal.feriados);
+      const WNAME = { 0:'domingo', 1:'lunes', 2:'martes', 3:'miércoles', 4:'jueves', 5:'viernes', 6:'sábado' };
       const STYLE = {
         'Lenguaje y Comunicación':                 { color: '#f59e0b', emoji: '📖', text: '#ffffff' },
         'Matemática':                              { color: '#eab308', emoji: '🔢', text: '#1f2937' },
@@ -81,29 +85,44 @@ const scheduleJson = JSON.stringify(schedule);
         'Karate':                                  { color: '#1f2937', emoji: '🥋', text: '#ffffff' },
       };
 
-      function todayName() {
-        return new Intl.DateTimeFormat('es-CL', {
-          weekday: 'long', timeZone: 'America/Santiago',
-        }).format(new Date()).toLowerCase();
+      function isoSantiago(now) {
+        return new Intl.DateTimeFormat('en-CA', {
+          timeZone: 'America/Santiago',
+          year: 'numeric', month: '2-digit', day: '2-digit',
+        }).format(now);
+      }
+
+      function iso(d) { return d.toISOString().slice(0, 10); }
+
+      function esDiaDeClases(d) {
+        const dow = d.getUTCDay();
+        if (dow === 0 || dow === 6) return false;
+        const s = iso(d);
+        if (feriadosSet.has(s)) return false;
+        for (const v of cal.vacaciones) {
+          if (s >= v.desde && s <= v.hasta) return false;
+        }
+        return true;
       }
 
       function nextDay() {
         const forced = new URLSearchParams(location.search).get('day');
-        if (forced && ['lunes','martes','miércoles','jueves','viernes'].includes(forced)) return forced;
-        const map = { lunes: 'martes', martes: 'miércoles', 'miércoles': 'jueves', jueves: 'viernes' };
-        return map[todayName()] || 'lunes';
-      }
-
-      function isWeekendGap() {
-        const t = todayName();
-        return t === 'viernes' || t === 'sábado';
+        if (forced && ['lunes','martes','miércoles','jueves','viernes'].includes(forced)) return { day: forced, gap: false };
+        const [y, m, d] = isoSantiago(new Date()).split('-').map(Number);
+        const cur = new Date(Date.UTC(y, m - 1, d));
+        let gap = false;
+        for (let i = 0; i < 60; i++) {
+          cur.setUTCDate(cur.getUTCDate() + 1);
+          if (esDiaDeClases(cur)) return { day: WNAME[cur.getUTCDay()], gap };
+          gap = true;
+        }
+        return { day: 'lunes', gap: true };
       }
 
       function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
       function render() {
-        const day = nextDay();
-        const gap = isWeekendGap();
+        const { day, gap } = nextDay();
         document.getElementById('prefix').textContent = gap ? 'Mañana no hay clases, pero el' : 'Mañana es';
         document.getElementById('suffix').textContent = gap ? 'me toca:' : 'y me toca:';
         document.getElementById('day').textContent = cap(day);
@@ -111,7 +130,7 @@ const scheduleJson = JSON.stringify(schedule);
         const tieneEdFisica = blocks.some(b => b.asignatura === 'Educación Física y Salud');
         document.getElementById('buzo').style.display = tieneEdFisica ? '' : 'none';
         document.getElementById('buzo-text').textContent = gap ? `El ${cap(day)} voy con buzo` : 'Mañana voy con buzo';
-        document.getElementById('viernes').style.display = day === 'viernes' ? '' : 'none';
+        document.getElementById('viernes').style.display = day === 'viernes' && !gap ? '' : 'none';
         const container = document.getElementById('blocks');
         container.innerHTML = '';
         for (const b of blocks) {

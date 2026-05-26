@@ -17,27 +17,34 @@ Fuera de alcance: notificaciones, tareas, recordatorios, login, edición desde l
 
 ## Reglas de "día siguiente"
 
-- Lunes a jueves -> muestra el día siguiente (martes a viernes).
-- Viernes, sábado y domingo -> muestra el lunes.
+- Muestra el **próximo día con clases**, calculado sobre fechas reales: se recorre día a día a partir de mañana y se omiten fin de semana, feriados nacionales y vacaciones.
+- En la práctica: lunes a jueves -> día siguiente (martes a viernes); viernes, sábado y domingo -> lunes; salvo que esos días caigan en feriado o vacaciones, en cuyo caso se sigue avanzando.
 - Zona horaria fija: `America/Santiago`.
-- El cálculo se hace en el cliente con `Intl.DateTimeFormat`.
+- El cálculo se hace tanto en SSR como en el cliente, sobre la fecha calendario de Santiago (`Intl.DateTimeFormat` con locale `en-CA`).
+- `gap` indica que el día mostrado no es mañana (mañana es finde, feriado o vacaciones); dispara el encabezado y avisos en su variante "no hay clases".
+
+### Feriados y vacaciones
+
+- Definidos en `src/data/calendario.ts`: `feriados` (array de fechas `YYYY-MM-DD`) y `vacaciones` (rangos `{ desde, hasta }` inclusivos).
+- Contiene los feriados nacionales de Chile y las vacaciones de invierno (22 jun - 3 jul 2026).
+- Las fechas están fijadas por año; actualizar este archivo cada año escolar.
 
 ### Encabezado
 
 Tres líneas apiladas en el `<h1>`:
 
-- Línea 1 (prefijo, gris): `Mañana es` en días normales; `Mañana no hay clases, pero el` los viernes y sábados.
+- Línea 1 (prefijo, gris): `Mañana es` cuando el día mostrado es mañana; `Mañana no hay clases, pero el` cuando hay `gap` (finde, feriado o vacaciones).
 - Línea 2 (día gigante, bold): el nombre del día capitalizado.
-- Línea 3 (sufijo, gris): `y me toca:` en días normales; `me toca:` los viernes y sábados.
+- Línea 3 (sufijo, gris): `y me toca:` sin `gap`; `me toca:` con `gap`.
 
 ### Zona de avisos
 
 Entre la lista de bloques y el footer hay una sección `#avisos` con mensajes contextuales en texto grande, bold, centrado, gris oscuro, sin caja. Cada aviso aparece o se oculta según una regla:
 
 - **Aviso de buzo** (`#buzo`): Visible si el horario mostrado contiene `Educación Física y Salud`. La detección es automática: lee del propio arreglo de bloques en vez de hardcodear lunes/miércoles. El texto cambia según el contexto:
-  - Días normales: `Mañana voy con buzo 👟`.
-  - Viernes y sábado (cuando el día mostrado es el lunes): `El Lunes voy con buzo 👟`.
-- **Aviso de salida temprano** (`#viernes`): `Mañana salgo a las 1 😄`. Visible si el día mostrado es viernes.
+  - Sin `gap`: `Mañana voy con buzo 👟`.
+  - Con `gap` (el día mostrado no es mañana): `El [Día] voy con buzo 👟`.
+- **Aviso de salida temprano** (`#viernes`): `Mañana salgo a las 1 😄`. Visible si el día mostrado es viernes y es mañana (sin `gap`).
 
 Si ambos aplican el mismo día, se apilan en ese orden con poco espacio entre ellos y poco espacio hasta el footer.
 
@@ -169,7 +176,8 @@ horario-francisco/
 │   └── icon-maskable-512.png
 └── src/
     ├── data/
-    │   └── schedule.ts
+    │   ├── schedule.ts
+    │   └── calendario.ts
     ├── lib/
     │   └── nextSchoolDay.ts
     ├── components/

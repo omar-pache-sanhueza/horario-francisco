@@ -19,6 +19,7 @@ PWA personal para Francisco (6 años) que muestra el horario escolar del día si
 - Usar guion corto `-`, nunca em dash `—`.
 - Sin comentarios en código salvo que expliquen un porqué no obvio.
 - Sin abstracciones prematuras: una página, datos planos, lógica mínima.
+- Tras cualquier cambio en los requisitos o el comportamiento, actualizar `SPEC.md` en el mismo cambio para que quede como fuente de verdad.
 
 ## Comandos
 
