@@ -179,7 +179,11 @@ const calendarioJson = JSON.stringify({ feriados, vacaciones });
           window.scrollTo({ top: 0, behavior: 'smooth' });
         });
       }
-      document.getElementById('volver').addEventListener('click', () => { modo = 'auto'; render(); });
+      document.getElementById('volver').addEventListener('click', () => {
+        modo = 'auto';
+        render();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
 
       render();
       document.addEventListener('visibilitychange', () => {
