@@ -173,7 +173,11 @@ const calendarioJson = JSON.stringify({ feriados, vacaciones });
       }
 
       for (const btn of document.querySelectorAll('.dia-btn')) {
-        btn.addEventListener('click', () => { modo = btn.dataset.dia; render(); });
+        btn.addEventListener('click', () => {
+          modo = btn.dataset.dia;
+          render();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
       }
       document.getElementById('volver').addEventListener('click', () => { modo = 'auto'; render(); });
 
