@@ -39,7 +39,7 @@ Cada bloque incluye un campo `trato` con valor `Miss` (mujer) o `Mister` (hombre
 
 ## Cómo cambiar el logo o íconos
 
-Reemplazar `public/logo.webp` y correr `npm run icons`.
+Los íconos PWA se generan desde `public/logo.png` (el escudo del colegio). Reemplazar esa imagen y correr `npm run icons`.
 
 ## Deploy
 
